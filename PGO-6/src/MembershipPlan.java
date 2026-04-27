@@ -1,4 +1,8 @@
+
 public abstract class MembershipPlan {
+implements Billable{
+
+}
 
     private String planCode;
     private String clientName;
@@ -15,9 +19,27 @@ public abstract class MembershipPlan {
         this.autoRenew = autoRenew;
     }
 
-    public String
+    public abstract String getPlanType();
 
-    public abstract String getPlanType ();
+    public String getPlanCode() {
+        return planCode;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public int getMonths() {
+        return months;
+    }
+
+    public double getBaseMonthlyFee() {
+        return baseMonthlyFee;
+    }
+
+    public boolean isAutoRenew() {
+        return autoRenew;
+    }
 
     public abstract double calculateMonthlyNetPrice ();
 
@@ -30,12 +52,26 @@ public abstract class MembershipPlan {
     }
 
     public final void printSummary() {
-        return 0;
+        System.out.println(
+                "Kod planu: " + getPlanCode() +
+                        ", Klient: " + getClientName() +
+                        ", Liczba miesięcy trwania planu: " + getMonths() +
+                        ", Bazowa opłata miesięczna: " + getBaseMonthlyFee() +
+                        ", Czy plan odnawia się automatycznie: " + isAutoRenew() +
+                        ", Miesięczna cena netto: " + calculateMonthlyNetPrice() +
+                        ", Miesięczna cena brutto: " + calculateMonthlyGrossPrice() +
+                        ", Cena całego planu: " + calculateTotalNetPrice()
+        );
     }
 
+    @Override
     public String toString() {
-
-        return
+        return "MembershipPlan{" +
+                "planCode='" + planCode + '\'' +
+                ", clientName='" + clientName + '\'' +
+                ", months=" + months +
+                ", baseMonthlyFee=" + baseMonthlyFee +
+                ", autoRenew=" + autoRenew +
+                '}';
     }
-
 }
