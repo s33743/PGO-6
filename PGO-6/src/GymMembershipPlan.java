@@ -19,6 +19,9 @@ public class GymMembershipPlan extends MembershipPlan implements Freezable {
                              int entriesPerMonth,
                              boolean saunaAccess) {
         super(planCode, clientName, months, baseMonthlyFee, autoRenew);
+
+        this.entriesPerMonth = entriesPerMonth;
+        this.saunaAccess = saunaAccess;
     }
 
     @Override
