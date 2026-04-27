@@ -1,8 +1,8 @@
+import java.io.Serializable;
 
-public abstract class MembershipPlan {
-implements Billable{
+public abstract class MembershipPlan implements Billable {
 
-}
+    public static final double STAWKA_VAT = 0.23;
 
     private String planCode;
     private String clientName;
@@ -12,11 +12,22 @@ implements Billable{
 
     public MembershipPlan(String planCode, String clientName, int months, double baseMonthlyFee, boolean autoRenew) {
 
+        if (
+                planCode == null || planCode.isEmpty() ||
+                        clientName == null || clientName.isEmpty() ||
+                        months <= 0 || baseMonthlyFee <= 0
+        ) {
+            throw new IllegalArgumentException(
+                    "Podano nieprawidłowe dane: "
+            );
+        }
+
         this.planCode = planCode;
         this.clientName = clientName;
         this.months = months;
         this.baseMonthlyFee = baseMonthlyFee;
         this.autoRenew = autoRenew;
+
     }
 
     public abstract String getPlanType();
@@ -44,34 +55,32 @@ implements Billable{
     public abstract double calculateMonthlyNetPrice ();
 
     public double calculateMonthlyGrossPrice() {
-        return 0;
+        return this.calculateMonthlyNetPrice() * (1+STAWKA_VAT);
     }
-
     public double calculateTotalNetPrice() {
-        return 0;
+        return this.calculateMonthlyNetPrice() * this.getMonths();
     }
 
     public final void printSummary() {
-        System.out.println(
-                "Kod planu: " + getPlanCode() +
-                        ", Klient: " + getClientName() +
-                        ", Liczba miesięcy trwania planu: " + getMonths() +
-                        ", Bazowa opłata miesięczna: " + getBaseMonthlyFee() +
-                        ", Czy plan odnawia się automatycznie: " + isAutoRenew() +
-                        ", Miesięczna cena netto: " + calculateMonthlyNetPrice() +
-                        ", Miesięczna cena brutto: " + calculateMonthlyGrossPrice() +
-                        ", Cena całego planu: " + calculateTotalNetPrice()
+        System.out.println("Kod planu: " + this.getPlanCode() +
+                        ", Klient: " + this.getClientName() +
+                        ", Liczba miesięcy trwania planu: " + this.getMonths() +
+                        ", Bazowa opłata miesięczna: " + this.getBaseMonthlyFee() +
+                        ", Czy plan odnawia się automatycznie: " + this.isAutoRenew() +
+                        ", Miesięczna cena netto: " + this.calculateMonthlyNetPrice() +
+                        ", Miesięczna cena brutto: " + this.calculateMonthlyGrossPrice() +
+                        ", Cena netto całego planu: " + this.calculateTotalNetPrice()
         );
     }
 
     @Override
     public String toString() {
         return "MembershipPlan{" +
-                "planCode='" + planCode + '\'' +
-                ", clientName='" + clientName + '\'' +
-                ", months=" + months +
-                ", baseMonthlyFee=" + baseMonthlyFee +
-                ", autoRenew=" + autoRenew +
+                "planCode='" + this.planCode + '\'' +
+                ", clientName='" + this.clientName + '\'' +
+                ", months=" + this.months +
+                ", baseMonthlyFee=" + this.baseMonthlyFee +
+                ", autoRenew=" + this.autoRenew +
                 '}';
     }
 }
