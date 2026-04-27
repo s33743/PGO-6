@@ -9,7 +9,11 @@ public abstract class MembershipPlan implements Billable {
     private double baseMonthlyFee;
     private boolean autoRenew;
 
-    public MembershipPlan(String planCode, String clientName, int months, double baseMonthlyFee, boolean autoRenew) {
+    public MembershipPlan(String planCode,
+                          String clientName,
+                          int months,
+                          double baseMonthlyFee,
+                          boolean autoRenew) {
 
         if (
                 planCode == null || planCode.isEmpty() ||
